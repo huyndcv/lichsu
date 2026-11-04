@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trắc Nghiệm Lịch Sử 11 - Ôn Tập Bài 1, 2, 3, 4</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 1.4rem; margin-bottom: 6px; }
+    header p { font-size: 0.9rem; opacity: 0.9; }
+    .container {
+      max-width: 1150px;
+      margin: 20px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar { position: static !important; order: -1; }
+    }
+    .toolbar {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border);
+    }
+    .toolbar-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    select, button {
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    select { background: #fff; color: var(--text); font-weight: 500; }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+    }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+    }
+    .btn-success:hover { background: #15803d; }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-title {
+      background: #eff6ff;
+      border-left: 5px solid var(--primary);
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1e3a8a;
+      margin: 24px 0 14px;
+      border-radius: 0 8px 8px 0;
+    }
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      scroll-margin-top: 100px;
+    }
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .q-num {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    .q-badge {
+      font-size: 0.78rem;
+      background: #e2e8f0;
+      color: #334155;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .q-text {
+      font-weight: 600;
+      margin-bottom: 14px;
+      white-space: pre-line;
+    }
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .option-item:hover { background: #f1f5f9; }
+    .option-item input[type="radio"] {
+      margin-top: 5px;
+      transform: scale(1.15);
+      cursor: pointer;
+    }
+    .option-item.selected {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .option-item.correct-ans {
+      border-color: var(--success);
+      background: var(--success-bg);
+      font-weight: 600;
+    }
+    .option-item.wrong-ans {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+    }
+    .tf-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    .tf-table th, .tf-table td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    .tf-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      text-align: center;
+    }
+    .tf-table td.tf-choice {
+      text-align: center;
+      width: 75px;
+    }
+    .tf-row-correct { background-color: var(--success-bg); }
+    .tf-row-wrong { background-color: var(--danger-bg); }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: center;
+    }
+    .data-table th { background: #f1f5f9; }
+    .result-box {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: none;
+    }
+    .result-box.show { display: block; }
+    .result-box.ok { background: var(--success-bg); color: #14532d; border: 1px solid #86efac; }
+    .result-box.fail { background: var(--danger-bg); color: #7f1d1d; border: 1px solid #fca5a5; }
+    .sidebar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      position: sticky;
+      top: 95px;
+      max-height: calc(100vh - 115px);
+      overflow-y: auto;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .sidebar h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .score-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+      text-align: center;
+      display: none;
+    }
+    .score-banner.show { display: block; }
+    .score-big {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .p-btn {
+      padding: 6px 0;
+      text-align: center;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .p-btn.done { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .p-btn.p-correct { background: var(--success); color: #fff; border-color: var(--success); }
+    .p-btn.p-wrong { background: var(--danger); color: #fff; border-color: var(--danger); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>HỆ THỐNG TRẮC NGHIỆM LỊCH SỬ 11 (BÀI 1 - 2 - 3 - 4)</h1>
+  <p>Tự động trộn câu hỏi ngẫu nhiên & chấm điểm chi tiết ngay sau khi nộp bài</p>
+</header>
+
+<div class="container">
+  <main>
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <label for="lessonSelect"><strong>Chọn bộ đề:</strong></label>
+        <select id="lessonSelect">
+          <option value="all">Tất cả 4 bài (145 câu)</option>
+          <option value="exam">Đề thi thử ngẫu nhiên (28 câu chuẩn cấu trúc)</option>
+          <option value="1">Bài 1: Một số vấn đề chung về cách mạng tư sản (40 câu)</option>
+          <option value="2">Bài 2: Sự xác lập và phát triển của CNTB (40 câu)</option>
+          <option value="3">Bài 3: Sự hình thành Liên bang CHXHCN Xô viết (25 câu)</option>
+          <option value="4">Bài 4: Sự phát triển của CNXH từ sau CTTG thứ hai (40 câu)</option>
+        </select>
+        <label class="checkbox-label">
+          <input type="checkbox" id="shuffleOpts" checked> Trộn đáp án A, B, C, D
+        </label>
+      </div>
+      <div class="toolbar-group">
+        <button class="btn-primary" onclick="initQuiz()">🔀 Trộn đề mới</button>
+        <button class="btn-success" onclick="submitQuiz()">✅ Nộp bài & Xem đáp án</button>
+      </div>
+    </div>
+
+    <div id="quizContainer"></div>
+  </main>
+
+  <aside class="sidebar">
+    <div id="scoreBanner" class="score-banner">
+      <div>ĐIỂM SỐ CỦA BẠN</div>
+      <div class="score-big" id="scoreVal">0.00 / 10</div>
+      <div id="scoreDetail" style="font-size:0.88rem; color:#475569; margin-top:4px;"></div>
+    </div>
+    <h3>
+      <span>Danh sách câu hỏi</span>
+      <span id="progressText" style="font-size:0.85rem; color:var(--muted);">0/0</span>
+    </h3>
+    <div class="palette" id="palette"></div>
+    <button class="btn-success" style="width:100%; margin-bottom:8px;" onclick="submitQuiz()">✅ Nộp bài & Báo đáp án</button>
+    <button class="btn-primary" style="width:100%;" onclick="initQuiz()">🔀 Làm lại & Đổi thứ tự câu</button>
+  </aside>
+</div>
+
+<script>
+const DB = [
+  // ==================== BÀI 1: PHẦN I (32 CÂU) ====================
+  { lesson: 1, type: 'mcq', q: 'Đầu thế kỉ XVII, ngành công nghiệp phát triển nhất ở nước Anh là', opts: ['luyện kim.', 'máy hơi nước.', 'len, dạ.', 'chế tạo máy móc.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Đẳng cấp thứ ba trong xã hội Pháp trước cách mạng gồm những lực lượng nào?', opts: ['Tư sản, nông dân, bình dân thành thị.', 'Quý tộc, nông dân, tăng lữ, thợ thủ công.', 'Tăng lữ, quý tộc và tư sản, nông dân.', 'Vua, quan lại, tăng lữ, bình dân thành thị.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Đến giữa thế kỉ XVIII, miền Bắc của 13 bang thuộc địa Anh ở Bắc Mĩ phổ biến phát triển', opts: ['kinh tế đồn điền.', 'công trường thủ công.', 'dệt và làm gốm.', 'phường hội thủ công.'], ans: 1 },
+  { lesson: 1, type: 'mcq', q: 'Đến giữa thế kỉ XVIII, miền Nam của 13 bang thuộc địa Anh ở Bắc Mĩ phổ biến phát triển', opts: ['công thương nghiệp.', 'đồn điền, trang trại.', 'luyện kim và đóng tàu.', 'khai thác dầu mỏ.'], ans: 1 },
+  { lesson: 1, type: 'mcq', q: 'Từ thế kỉ XVII, nền nông nghiệp Anh có đặc điểm nổi bật nào sau đây?', opts: ['Lạc hậu, manh mún, công cụ lao động thô sơ.', 'Bị cạnh tranh gay gắt bởi nông nghiệp Pháp.', 'Phương thức kinh doanh mới thâm nhập mạnh.', 'Phát triển mạnh mẽ trong ngành đồn điền cao su.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Mục tiêu chung của các cuộc cách mạng tư sản thế kỉ XVI - XVIII là', opts: ['lật đổ chế độ phong kiến, thực dân cùng tàn tích của nó.', 'lật đổ chế độ phong kiến, cổ đại cùng tàn tích của nó.', 'tạo điều kiện cho sự phát triển của chế độ phong kiến.', 'mở đường cho sự phát triển của chủ nghĩa xã hội.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Các cuộc cách mạng tư sản thế kỉ XVI - XVIII có hai nhiệm vụ cơ bản là', opts: ['dân tộc và dân chủ.', 'dân tộc và dân sinh.', 'độc lập và tự do.', 'dân chủ và dân quyền.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Một trong những lực lượng lãnh đạo chủ yếu của các cuộc cách mạng tư sản thế kỉ XVI – XVIII là giai cấp', opts: ['tư sản.', 'công nhân.', 'nông dân.', 'địa chủ.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Lãnh đạo của cuộc cách mạng tư sản Anh thế kỉ XVII là', opts: ['tư sản và chủ nô.', 'tư sản và quý tộc mới.', 'tăng lữ và quý tộc.', 'chủ nô và quý tộc.'], ans: 1 },
+  { lesson: 1, type: 'mcq', q: '“Lật đổ chế độ phong kiến đứng đầu là vua Sác-lơ I, thiết lập nền thống trị của giai cấp tư sản và quý tộc mới, mở đường cho sự phát triển của chủ nghĩa tư bản” là mục tiêu của cuộc cách mạng tư sản ở quốc gia nào sau đây?', opts: ['Nga.', 'Pháp.', 'Anh.', 'Bắc Mỹ.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Một trong những ý nghĩa của cách mạng tư sản Pháp cuối thế kỷ XVIII là', opts: ['lật đổ và xóa bỏ mọi tàn dư của chế độ phong kiến.', 'thúc đẩy phong trào đấu tranh giành độc lập Mĩ Latinh.', 'lật đổ chế độ quân chủ chuyên chế do vua Sác-lơ I đứng đầu.', 'lật đổ sự thống trị của thực dân Anh, giành độc lập dân tộc.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Cách mạng tư sản Anh thế kỉ XVII đã', opts: ['lật đổ chế độ thuộc địa nửa phong kiến.', 'thiết lập chế độ dân chủ cộng hòa ở Anh.', 'thiết lập chế độ quân chủ lập hiến ở Anh.', 'giành độc lập dân tộc từ tay thực dân Pháp.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Mức độ thắng lợi của các cuộc cách mạng tư sản thời cận đại khác nhau là do', opts: ['điều kiện lịch sử.', 'giai cấp lãnh đạo.', 'động lực cách mạng.', 'nhiệm vụ cách mạng.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Đặc điểm nổi bật của tình hình chính trị nước Anh và Pháp trước khi bùng nổ cách mạng tư sản là', opts: ['tồn tại chế độ quân chủ chuyên chế.', 'là thuộc địa của chủ nghĩa thực dân.', 'xuất hiện kinh tế tư bản chủ nghĩa.', 'xuất hiện trào lưu triết học Ánh sáng.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Nội dung nào sau đây không phải là đặc điểm tình hình nước Pháp cuối thế kỉ XVIII?', opts: ['Lấy Thanh giáo làm ngọn cờ tư tưởng.', 'Xuất hiện trào lưu Triết học Ánh sáng.', 'Xã hội phân chia thành các đẳng cấp.', 'Vua Lu-i XVI có quyền lực tuyệt đối.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Đặc điểm nổi bật về kinh tế của 13 thuộc địa Anh ở Bắc Mĩ giữa thế kỉ XVIII là', opts: ['miền Nam chủ yếu phát triển kinh tế công nghiệp.', 'miền Bắc chủ yếu phát triển kinh tế thương nghiệp.', 'kinh tế phát triển theo con đường tư bản chủ nghĩa.', 'phương thức sản xuất tư bản chủ nghĩa chưa thâm nhập.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Nội dung nào sau đây không phải là mục tiêu của các cuộc cách mạng tư sản thế kỉ XVI - XVIII?', opts: ['Lật đổ chế độ phong kiến, thực dân cùng tàn tích của nó.', 'Tạo điều kiện cho sự phát triển của kinh tế tư bản chủ nghĩa.', 'Thiết lập nền thống trị của giai cấp tư sản và liên minh của họ.', 'Mở ra thời đại thắng lợi của chế độ xã hội chủ nghĩa.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Nội dung nào sau đây là mục tiêu của cuộc cách mạng tư sản Pháp cuối thế kỉ XVIII?', opts: ['Lật đổ chế độ phong kiến đứng đầu vua Sác-lơ I.', 'Lật đổ ách thống trị của thực dân Anh, giành độc lập.', 'Lật đổ chế độ phong kiến đứng đầu vua Lu-i XVI.', 'Thiết lập chính quyền của giai cấp tư sản và chủ nô.'], ans: 2 },
+  { lesson: 1, type: 'mcq', q: 'Một trong những điểm chung của các cuộc cách mạng tư sản thời cận đại là', opts: ['mở đường cho chủ nghĩa tư bản phát triển.', 'do tư sản và chủ nô lãnh đạo.', 'xóa bỏ chế độ phong kiến và nô lệ.', 'diễn ra dưới hình thức nội chiến.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Điểm khác biệt về tình hình chính trị Bắc Mĩ so với nước Anh và Pháp trước khi cách mạng tư sản bùng nổ thế kỉ XVIII là', opts: ['thực dân phương Tây thống trị.', 'chế độ phong kiến kìm hãm.', 'xuất hiện tầng lớp quý tộc mới.', 'xã hội tồn tại chế độ đẳng cấp.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Điểm chung trong tiền đề tư tưởng của các cuộc cách mạng tư sản thế kỉ XVII - XVIII là', opts: ['Xuất hiện trào lưu tư tưởng tiến bộ của tư sản.', 'Xuất hiện trào lưu triết học Ánh sáng.', 'Xuất hiện các giai cấp, tầng lớp xã hội mới.', 'Xuất hiện trào lưu xã hội không tưởng.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Nhận xét nào sau đây là đúng về ý nghĩa cách mạng tư sản Pháp cuối thế kỉ XVIII?', opts: ['Lật đổ và xóa bỏ mọi tàn dư của chế độ phong kiến.', 'Tạo điều kiện đầy đủ nhất cho kinh tế tư bản phát triển.', 'Thúc đẩy phong trào giải phóng dân tộc ở Mĩ Latinh.', 'Thiết lập chế độ quân chủ lập hiến tiến bộ ở Pháp.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Các cuộc cách mạng tư sản thời cận đại đều', opts: ['dẫn đến xác lập quan hệ sản xuất tư bản chủ nghĩa.', 'tạo ra một nền dân chủ, tự do thực sự, rộng rãi.', 'lật đổ chế độ phong kiến, thiết lập nền cộng hòa.', 'lật đổ chế độ thực dân, thiết lập nền cộng hòa.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Trước khi cách mạng tư sản bùng nổ, cả Anh và Pháp đều', opts: ['theo thể chế quân chủ chuyên chế.', 'theo thể chế quân chủ lập hiến.', 'là thuộc địa của thực dân bên ngoài.', 'có nền nông nghiệp lạc hậu, manh mún.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Nội dung nào phản ánh không đúng về nhiệm vụ dân chủ trong các cuộc cách mạng tư sản thời cận đại?', opts: ['Xóa bỏ chế độ phong kiến chuyên chế.', 'Xác lập nền dân chủ tư sản.', 'Đem lại quyền tự do chính trị cho người dân.', 'Thống nhất thị trường dân tộc.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Ở nước Anh, do sự phát triển của ngành công nghiệp len dạ làm cho nghề nuôi cừu trở nên có lợi nhất. Nhiều quý tộc chuyển hướng kinh doanh theo phương thức tư bản chủ nghĩa, giàu lên nhanh chóng, trở thành tầng lớp', opts: ['tư sản.', 'chủ nô.', 'quý tộc phong kiến.', 'quý tộc mới.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Sự phát triển của nền kinh tế đã làm biến đổi xã hội Tây Âu và Bắc Mỹ, xuất hiện các giai cấp, tầng lớp mới đại diện cho phương thức sản xuất', opts: ['tư bản chủ nghĩa.', 'phong kiến.', 'xã hội chủ nghĩa.', 'chiếm hữu nô lệ.'], ans: 0 },
+  { lesson: 1, type: 'mcq', q: 'Một trong những nhiệm vụ của các cuộc cách mạng tư sản thế kỉ XVII - XVIII là', opts: ['đưa giai cấp công nhân lên nắm quyền.', 'xóa bỏ triệt để mâu thuẫn trong xã hội.', 'xác lập sự thống trị của chủ nghĩa thực dân.', 'xóa bỏ tình trạng phong kiến cát cứ.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Lãnh đạo các cuộc cách mạng tư sản từ thế kỉ XVII đến thế kỉ XVIII không bao gồm lực lượng nào sau đây?', opts: ['tư sản.', 'quý tộc mới.', 'chủ nô.', 'công nhân.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Nội dung nào sau đây là tiền đề về kinh tế dẫn đến sự bùng nổ và thắng lợi của các cuộc cách mạng tư sản thế kỉ XVII – XVIII?', opts: ['Quan hệ sản xuất tư bản chủ nghĩa thay thế hoàn toàn quan hệ phong kiến.', 'Triết học Ánh sáng ra đời, thức tỉnh, dọn đường cho quần chúng đấu tranh.', 'Giai cấp tư sản và đồng minh có thế lực rất lớn cả về kinh tế và chính trị.', 'Kinh tế tư bản chủ nghĩa ra đời và phát triển trong lòng chế độ phong kiến.'], ans: 3 },
+  { lesson: 1, type: 'mcq', q: 'Cuộc Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ (cuối thế kỷ XVIII) và cuộc cách mạng tư sản Anh (thế kỷ XVII) có điểm giống nhau nào sau đây?', opts: ['Chống thực dân Anh, giành độc lập dân tộc.', 'Mở đường cho chủ nghĩa tư bản phát triển.', 'Có sự lãnh đạo của tầng lớp quý tộc mới.', 'Diễn ra dưới hình thức một cuộc nội chiến.'], ans: 1 },
+  { lesson: 1, type: 'mcq', q: '“Lật đổ chế độ phong kiến đứng đầu là vua Lu-i XVI, thiết lập nền thống trị của giai cấp tư sản” là mục tiêu của cách mạng tư sản nào sau đây?', opts: ['Đấu tranh thống nhất nước Đức.', 'Cách mạng tư sản Pháp.', 'Cách mạng tư sản Anh.', 'Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mỹ.'], ans: 1 },
+
+  // ==================== BÀI 1: PHẦN II (8 CÂU ĐÚNG/SAI) ====================
+  { lesson: 1, type: 'tf', q: 'Xác định tính Đúng/Sai của các nhận định sau về cách mạng tư sản:', items: [
+    { text: '1. Các cuộc cách mạng tư sản có mục tiêu chung là lật đổ chế độ phong kiến, thực dân, thiết lập nền thống trị của giai cấp vô sản.', ans: false },
+    { text: '2. Đầu thế kỉ XVII, Anh là nước có nền kinh tế phát triển nhất châu Âu, đặc biệt là công nghiệp sản xuất len dạ và ngoại thương.', ans: true },
+    { text: '3. Cách mạng tư sản Pháp diễn ra dưới hình thức nội chiến kết hợp với chiến tranh giải phóng dân tộc.', ans: true },
+    { text: '4. Lãnh đạo cuộc đấu tranh giành độc lập ở 13 thuộc địa Anh ở Bắc Mĩ là giai cấp tư sản và tầng lớp quý tộc mới.', ans: false },
+    { text: '5. Cách mạng tư sản Anh đã mở ra thời đại mới: thời đại thắng lợi và củng cố của chủ nghĩa tư bản ở các nước Âu – Mỹ.', ans: false },
+    { text: '6. Mức độ thắng lợi của các cuộc cách mạng tư sản không phụ thuộc vào điều kiện lịch sử.', ans: false }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\nTư liệu 1: “Tất cả mọi người sinh ra có quyền bình đẳng. Tạo hóa cho họ những quyền không ai có thể xâm phạm được; trong những quyền ấy, có quyền được sống, quyền tự do và quyền mưu cầu hạnh phúc” (Tuyên ngôn Độc lập - Mĩ, năm 1776).\nTư liệu 2: “Điều 1. Con người sinh ra đều có quyền tự do và bình đẳng. Những sự phân biệt xã hội chỉ có thể dựa trên lợi ích chung. Điều 17. Quyền tư hữu là quyền bất khả xâm phạm và thiêng liêng không ai có thể bị tước bỏ” (Tuyên ngôn Nhân quyền và Dân quyền - Pháp, năm 1789).', items: [
+    { text: 'a) Bản Tuyên ngôn Nhân quyền và Dân quyền ra đời từ cuộc cách mạng tư sản Pháp cuối thế kỉ XVIII.', ans: true },
+    { text: 'b) Điểm chung của Tuyên ngôn Độc lập của nước Mĩ và Tuyên ngôn Nhân quyền và Dân quyền của nước Pháp là đề cao quyền con người và quyền công dân.', ans: true },
+    { text: 'c) Bản Tuyên ngôn Nhân quyền và Dân quyền của nước Pháp năm 1789 không đề cao quyền tư hữu cá nhân vì đó là biểu hiện cho sự phân biệt giàu – nghèo trong xã hội.', ans: false },
+    { text: 'd) Trong Tuyên ngôn Độc lập của nước Việt Nam Dân chủ Cộng hòa (2/9/1945), Chủ tịch Hồ Chí Minh đã trích dẫn những câu nói nổi tiếng trong bản Tuyên ngôn Độc lập của nước Mĩ và Tuyên ngôn Nhân quyền và Dân quyền của nước Pháp.', ans: true }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Các cuộc cách mạng tư sản có hai nhiệm vụ cơ bản là dân tộc và dân chủ.\nNhiệm vụ dân tộc là xóa bỏ tình trạng phong kiến cát cứ, đánh đuổi thực dân, giải phóng dân tộc, thống nhất thị trường, tạo thành một quốc gia dân tộc gồm đầy đủ bốn yếu tố: lãnh thổ chung, ngôn ngữ chung, nền văn hóa chung và nền kinh tế chung.\nNhiệm vụ dân chủ thể hiện thông qua việc xóa bỏ chế độ phong kiến chuyên chế, xác lập nền dân chủ tư sản, mỗi người dân đều có quyền tự do chính trị, tự do kinh doanh và có quyền tư hữu” (SGK Lịch sử 11, Bộ Cánh diều, tr.9).', items: [
+    { text: 'a) Một trong những nhiệm vụ cơ bản của các cuộc cách mạng tư sản là nhiệm vụ dân tộc.', ans: true },
+    { text: 'b) Cách mạng tư sản Pháp đã xóa bỏ chế độ phong kiến chuyên chế, giải quyết vấn đề ruộng đất cho nông dân. Như vậy, cách mạng tư sản Pháp đã thực hiện nhiệm vụ dân chủ.', ans: true },
+    { text: 'c) Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ cuối thế kỉ XVIII chỉ thực hiện nhiệm vụ dân tộc.', ans: false },
+    { text: 'd) Cách mạng tư sản Pháp cuối thế kỉ XVIII vừa thực hiện nhiệm vụ dân tộc, vừa thực hiện nhiệm vụ dân chủ.', ans: true }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Các cuộc cách mạng tư sản đều giành thắng lợi, lật đổ chế độ phong kiến, thực dân và thiết lập chế độ tư bản chủ nghĩa.\nDo điều kiện lịch sử ở mỗi nước khác nhau nên thắng lợi của các cuộc cách mạng tư sản cũng khác nhau. Cách mạng tư sản Anh đã lật đổ chế độ quân chủ chuyên chế, thiết lập chế độ quân chủ lập hiến. Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ đã lật đổ sự thống trị của thực dân Anh, giành được độc lập dân tộc. Cách mạng tư sản Pháp đã lật đổ chế độ quân chủ chuyên chế, thiết lập chế độ cộng hòa” (SGK Lịch sử 11, Bộ Cánh diều, tr.10).', items: [
+    { text: 'a) Mức độ thắng lợi của các cuộc cách mạng tư sản phụ thuộc vào điều kiện lịch sử của mỗi nước.', ans: true },
+    { text: 'b) Sau cuộc cách mạng tư sản thế kỉ XVII, nước Anh thiết lập chế độ Cộng hòa.', ans: false },
+    { text: 'c) Điểm chung của các cuộc cách mạng tư sản là thiết lập chế độ tư bản chủ nghĩa, mở đường cho kinh tế hàng hóa phát triển.', ans: true },
+    { text: 'd) Cách mạng tư sản Anh, Pháp, Mĩ thế kỉ XVII – XVIII đều lật đổ chế độ phong kiến, thiết lập chế độ quân chủ lập hiến.', ans: false }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\nTình hình chính trị của nước Anh trước cách mạng: “Ở Anh, nhà vua nắm mọi quyền lực, cai trị độc đoán, tự ý đánh thuế mà không cần hỏi ý kiến của Quốc hội. Vua đứng đầu Giáo hội Anh (Anh giáo), tiến hành đàn áp các tín đồ Thanh giáo (tôn giáo cải cách), lập ra các tòa án để buộc tội những người chống đối” (SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, tr.7).', items: [
+    { text: 'a) Ở nước Anh trước cách mạng tư sản, nhà vua nắm quyền lực tối cao và vô hạn.', ans: true },
+    { text: 'b) Vua Anh tôn trọng quyền quyết định của Quốc hội trong xây dựng luật pháp.', ans: false },
+    { text: 'c) Ở nước Anh trước cách mạng tư sản diễn ra cuộc đấu tranh trên lĩnh vực tư tưởng giữa Anh giáo và Thanh giáo.', ans: true },
+    { text: 'd) Anh giáo là ngọn cờ tư tưởng tiến bộ của tư sản và quý tộc mới ở Anh nhằm chống lại chế độ phong kiến.', ans: false }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ đã giải phóng nhân dân các thuộc địa Anh khỏi ách thống trị thực dân, đưa đến sự thành lập nhà nước tư sản đầu tiên ở ngoài châu Âu, thúc đẩy phong trào giải phóng dân tộc ở khu vực Mĩ Latinh phát triển và có ảnh hưởng tích cực đến phong trào giành độc lập ở nhiều nơi trên thế giới vào cuối thế kỉ XVIII – đầu thế kỉ XIX” (SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, tr.11).', items: [
+    { text: 'a) Thắng lợi của chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ đánh dấu sự mở rộng của chủ nghĩa tư bản ở ngoài châu Âu.', ans: true },
+    { text: 'b) Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ là cuộc cách mạng tư sản vĩ đại và triệt để nhất trong các thế kỉ XVI – XIX.', ans: false },
+    { text: 'c) Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ đã lật đổ ách thống trị của thực dân Anh, đưa đến sự thành lập nhà nước dân chủ tư sản đầu tiên trên thế giới.', ans: false },
+    { text: 'd) Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mĩ thắng lợi đã thúc đẩy phong trào đấu tranh giành độc lập ở nhiều nước trên thế giới.', ans: true }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Hãy xác định câu Đúng hoặc Sai về tiền đề, mục tiêu và nhiệm vụ của các cuộc cách mạng tư sản:', items: [
+    { text: '1. Những biến đổi về kinh tế làm mâu thuẫn xã hội ở Tây Âu và Bắc Mỹ ngày càng gay gắt.', ans: true },
+    { text: '2. Càng giàu có về kinh tế, giai cấp tư sản và đồng minh lại càng khao khát có quyền chính trị tương ứng.', ans: true },
+    { text: '3. Giai cấp tư sản tìm mọi cách để thuyết phục nhà vua tạo điều kiện thuận lợi cho họ kinh doanh.', ans: false },
+    { text: '4. Dẫn đường cho các cuộc cách mạng tư sản là tư tưởng của Giáo hội Thiên Chúa.', ans: false },
+    { text: '5. Khi chưa có hệ tư tưởng dân chủ tư sản, tư tưởng của Giáo hội Thiên Chúa giáo là ngọn cờ tập hợp quần chúng làm cách mạng.', ans: false },
+    { text: '6. Đạo Tin lành ở Hà Lan và Thanh giáo ở Anh dẫn đường cho giai cấp tư sản và quần chúng ở các nước này đấu tranh chống phong kiến, tiến hành cách mạng tư sản.', ans: true },
+    { text: '7. Cách mạng tư sản nhằm xoá bỏ những rào cản kìm hãm sự phát triển của nền kinh tế tư bản chủ nghĩa, mở đường cho chủ nghĩa tư bản phát triển.', ans: true },
+    { text: '8. Cách mạng tư sản nhằm củng cố quyền lực của quý tộc phong kiến và tăng lữ.', ans: false }
+  ]},
+  { lesson: 1, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Hiện tượng “Cừu ăn thịt người” là câu nói của Tô-mát Mo-rơ miêu tả thảm cảnh của người nông dân Anh trong phong trào “rào đất cướp ruộng” cuối thế kỉ XV đầu thế kỉ XVI.\nQuý tộc mới (quý tộc tư sản hóa) đã đuổi nông dân ra khỏi những mảnh đất mà họ đã từng canh tác để biến thành đồng cỏ nuôi cừu, kinh doanh thu lợi nhuận, tạo ra sự tích lũy tư bản nguyên thủy” (SGK Lịch sử 11, Bộ Chân trời sáng tạo, tr.5).', items: [
+    { text: 'a) Cuối thế kỉ XV – đầu thế kỉ XVI, phương thức sản xuất tư bản chủ nghĩa đã thâm nhập mạnh vào nông nghiệp Anh.', ans: true },
+    { text: 'b) Nguyên nhân chủ yếu dẫn đến phong trào “rào đất cướp ruộng” ở Anh là do sự phát triển mạnh mẽ của ngành công nghiệp len dạ.', ans: true },
+    { text: 'c) Sự phát triển của kinh tế tư bản chủ nghĩa trong nông nghiệp làm xuất hiện tầng lớp quý tộc mới, sau này đã liên minh với tư sản chống lại chế độ phong kiến Anh.', ans: true },
+    { text: 'd) Phong trào “rào đất cướp ruộng” đã góp phần cải thiện đời sống của nông dân Anh trước cách mạng tư sản.', ans: false }
+  ]},
+
+  // ==================== BÀI 2: PHẦN I (34 CÂU) ====================
+  { lesson: 2, type: 'mcq', q: 'Đầu thế kỉ XIX, các nước Mĩ Latinh giành độc lập từ tay thực dân', opts: ['Tây Ban Nha và Bồ Đào Nha.', 'Anh và đế quốc Mĩ.', 'Tây Ban Nha và Pháp.', 'Pháp và Đức.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Chủ nghĩa tư bản hiện đại là thuật ngữ dùng để chỉ chủ nghĩa tư bản', opts: ['trong giai đoạn tự do cạnh tranh.', 'bắt đầu chuyển sang giai đoạn độc quyền.', 'từ sau chiến tranh thế giới thứ II đến nay.', 'từ sau chiến tranh thế giới thứ I đến nay.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Một trong những thách thức mà chủ nghĩa tư bản hiện đại phải đối mặt là', opts: ['tiềm ẩn nguy cơ khủng hoảng tài chính mang tính toàn cầu.', 'sức sản xuất của các ngành kinh tế ngày càng cao.', 'khoa học công nghệ phát triển và ngày càng mở rộng.', 'lực lượng lao động có chất lượng ngày càng cao.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Chủ nghĩa tư bản được xác lập đầu tiên trên thế giới ở', opts: ['Châu Âu và Bắc Mĩ.', 'Tây Âu và Châu Á.', 'Bắc Mĩ và Nam Á.', 'Châu Á và Châu Phi.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Sự kiện đánh dấu sự mở rộng của cuộc cách mạng tư sản bên ngoài châu Âu là', opts: ['Cách mạng tư sản Anh.', 'Cách mạng tư sản Pháp.', 'Cách mạng tư sản Hà Lan.', 'Chiến tranh giành độc lập ở Bắc Mĩ.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Một trong những đặc điểm cơ bản của chủ nghĩa tư bản hiện đại là', opts: ['bước đầu xuất khẩu tư bản.', 'xuất hiện độc quyền nhà nước.', 'bước đầu xâm lược thuộc địa.', 'xuất hiện tư bản tài chính.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Sự xác lập của chủ nghĩa tư bản ở châu Âu và Bắc Mĩ thế kỉ XVII – XIX có điểm chung là', opts: ['thiết lập chế độ quân chủ lập hiến.', 'thiết lập chế độ cộng hòa.', 'lật đổ chế độ thực dân.', 'do giai cấp tư sản lãnh đạo.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Các nước tư bản hiện đại tiêu biểu là', opts: ['Mĩ, Anh, Trung Quốc.', 'Mĩ, Nhật, Cu Ba.', 'Mĩ, Nhật, Đức.', 'Mĩ, Nhật, Trung Quốc.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Sự khác biệt giữa chủ nghĩa tư bản tự do cạnh tranh và chủ nghĩa tư bản độc quyền xuất phát từ', opts: ['sự phát triển kinh tế và công nghiệp.', 'sự cạnh tranh và chiến lược kinh doanh.', 'sự bất ổn định, phân hóa giàu nghèo.', 'sự tập trung tài sản và quyền lực.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Từ đầu thế kỉ XIX, để đáp ứng nhu cầu ngày càng cao về nguyên liệu và nhân công, các nước tư bản phương Tây đã tăng cường', opts: ['hợp tác và mở rộng đầu tư.', 'thu hút vốn đầu tư bên ngoài.', 'xâm lược và mở rộng thuộc địa.', 'đổi mới hình thức kinh doanh.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Cuối thế kỉ XIX – đầu thế kỉ XX, các nước tư bản chủ nghĩa đã chuyển sang giai đoạn', opts: ['tự do cạnh tranh.', 'cải cách đất nước.', 'đế quốc chủ nghĩa.', 'chủ nghĩa phát xít.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Chủ nghĩa đế quốc ra đời từ cuối thế kỉ XIX đầu thế kỉ XX là hệ quả trực tiếp của quá trình', opts: ['xâm lược thuộc địa.', 'giao lưu buôn bán.', 'toàn cầu hóa.', 'hợp tác kinh tế.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Cho đến cuối thế kỉ XIX, các nước đế quốc chủ nghĩa đã thiết lập hệ thống thuộc địa rộng khắp ở', opts: ['châu Âu, châu Mỹ và khu vực Tây Âu.', 'châu Âu, châu Úc và khu vực Bắc Mỹ.', 'châu Á, châu Phi và khu vực Mỹ La-tinh.', 'châu Mỹ, Tây Âu và khu vực Đông Âu.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Đầu thế kỉ XX, quốc gia nào sau đây có hệ thống thuộc địa rộng lớn nhất?', opts: ['Đức.', 'I-ta-li-a.', 'Nhật.', 'Anh.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Các tổ chức độc quyền ra đời ở các nước tư bản (từ cuối thế kỉ XIX đầu thế kỉ XX) là kết quả của sự liên minh giữa', opts: ['vô sản và tư sản.', 'chủ nô và tư sản.', 'các nhà tư bản lớn.', 'địa chủ và quý tộc.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Sự kiện nào sau đây đánh dấu sự mở rộng của chủ nghĩa tư bản ở ngoài châu Âu?', opts: ['Chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mỹ.', 'Phong trào đấu tranh giành độc lập ở khu vực Mỹ La-tinh.', 'Cuộc vận động thống nhất nước Đức và I-ta-li-a.', 'Cải cách nông nô ở Nga và cuộc nội chiến ở Mỹ.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Nội dung nào sau đây là một trong những thách thức của chủ nghĩa tư bản hiện đại?', opts: ['Nguồn nhân công ngày càng cạn kiệt.', 'Giao lưu kinh tế quốc tế ngày càng tăng.', 'Mâu thuẫn xã hội ngày càng gia tăng.', 'Sự ra đời các tổ chức liên kết khu vực.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Chính sách xâm lược và mở rộng thuộc địa của các nước tư bản nhằm mục đích đáp ứng nhu cầu', opts: ['phát triển khoa học – kĩ thuật.', 'giải quyết tình trạng thất nghiệp.', 'thu hút nguồn vốn đầu tư bên ngoài.', 'nguyên liệu và nguồn nhân công.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Nước Anh được mệnh danh là “đế quốc mà Mặt Trời không bao giờ lặn” vì lí do nào sau đây?', opts: ['Nước Anh luôn phải đối mặt với nạn ngoại xâm.', 'Nước Anh có hệ thống thuộc địa rộng khắp thế giới.', 'Nguồn vốn đầu tư của nước Anh trải khắp toàn cầu.', 'Các nước đế quốc tranh nhau đầu tư vào nước Anh.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Cuộc Duy Tân Minh Trị (1868) ở Nhật Bản và cuộc cách mạng Tân Hợi (1911) ở Trung Quốc có điểm tương đồng nào sau đây?', opts: ['Là cuộc cách mạng dân chủ tư sản triệt để.', 'Mở đường cho chủ nghĩa tư bản phát triển.', 'Là những cuộc chiến tranh giải phóng dân tộc.', 'Giải quyết được vấn đề ruộng đất cho nông dân.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Cuộc Duy tân Minh Trị đã', opts: ['đặt nền móng cho xây dựng chủ nghĩa xã hội ở Nhật Bản.', 'đưa Nhật Bản mở rộng ảnh hưởng sang châu Âu và châu Phi.', 'đưa Nhật Bản từ nước phong kiến thành nước tư bản chủ nghĩa.', 'giúp Nhật Bản đạt được nhiều tiến bộ về nghiên cứu hải dương.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Ở châu Á, cuối thế kỉ XIX, những quốc gia nào sau khi tiến hành cải cách, duy tân đã đưa đất nước theo con đường tư bản chủ nghĩa?', opts: ['Nhật Bản và Xiêm.', 'Nhật Bản và Trung Quốc.', 'Xiêm và Việt Nam.', 'Xiêm và Ấn Độ.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Trong những năm 50 – 70 của thế kỉ XIX, các cuộc cách mạng tư sản tiếp tục diễn ra dưới nhiều hình thức ở châu Âu và Bắc Mĩ, điển hình là', opts: ['cách mạng tư sản Anh.', 'cách mạng tư sản Pháp.', 'Chiến tranh giành độc lập ở Bắc Mĩ.', 'Cải cách nông nô ở Nga.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Cuối thế kỉ XIX, hầu hết các quốc gia ở châu Á đều trở thành thuộc địa của thực dân phương Tây, ngoại trừ', opts: ['Xiêm và Nhật Bản.', 'Nhật Bản và Trung Quốc.', 'Trung Quốc và Xiêm.', 'Ấn Độ và Xiêm.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Đầu thế kỉ XIX, các nước Mĩ Latinh giành độc lập từ tay thực dân (câu ôn tập củng cố)', opts: ['Tây Ban Nha và Bồ Đào Nha.', 'Anh và đế quốc Mĩ.', 'Tây Ban Nha và Pháp.', 'Pháp và Đức.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Cuối thế kỉ XIX đầu thế kỉ XX, quốc gia nào sau đây được mệnh danh là “công xưởng của thế giới” và “đế quốc mà Mặt Trời không bao giờ lặn”?', opts: ['Pháp.', 'Anh.', 'Đức.', 'Mĩ.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Cuối thế kỉ XIX, sự tập trung sản xuất và tích tụ cao độ đã đưa chủ nghĩa tư bản chuyển sang giai đoạn', opts: ['độc quyền.', 'tự do cạnh tranh.', 'hòa hoãn.', 'hợp tác.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Cuối thế kỉ XIX, quốc gia nào sau đây đã bành trướng và can thiệp nội bộ đối với nhiều nước khu vực Mĩ Latinh?', opts: ['Tây Ban Nha.', 'Bồ Đào Nha.', 'Anh.', 'Mĩ.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Một trong những đặc điểm nổi bật của chủ nghĩa tư bản độc quyền cuối thế kỉ XIX đầu thế kỉ XX là sự hình thành của các', opts: ['công ty xuyên quốc gia.', 'tổ chức độc quyền.', 'tổ chức liên kết khu vực.', 'tổ chức liên kết quốc tế.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Lĩnh vực nào sau đây là tiềm năng phát triển của chủ nghĩa tư bản hiện đại?', opts: ['Chạy đua vũ trang.', 'Sự bình đẳng xã hội.', 'Cơ cấu giai cấp xã hội.', 'Khoa học – công nghệ.'], ans: 3 },
+  { lesson: 2, type: 'mcq', q: 'Nội dung nào sau đây tạo cơ sở cho bước chuyển biến của chủ nghĩa tư bản từ tự do cạnh tranh sang giai đoạn độc quyền?', opts: ['Quá trình hợp tác ở các nước tư bản.', 'Sự phát triển của các tổ chức độc quyền.', 'Nhiều trung tâm kinh tế - tài chính ra đời.', 'Sự ra đời nhiều tổ chức liên kết khu vực.'], ans: 1 },
+  { lesson: 2, type: 'mcq', q: 'Nội dung nào sau đây phản ánh không đúng đặc điểm của chủ nghĩa tư bản độc quyền?', opts: ['Sự tập trung sản xuất và tư bản ở mức cao.', 'Xuất khẩu tư bản đóng vai trò quan trọng.', 'Đầu tư, hợp tác với các nước đang phát triển.', 'Tăng cường phân chia lãnh thổ thế giới.'], ans: 2 },
+  { lesson: 2, type: 'mcq', q: 'Sự phát triển của chủ nghĩa tư bản diễn ra theo trình tự nào sau đây?', opts: ['CNTB tự do cạnh tranh => CNTB độc quyền => CNTB hiện đại.', 'CNTB độc quyền => CNTB hiện đại => CNTB tự do cạnh tranh.', 'CNTB tự do cạnh tranh => CNTB hiện đại => CNTB độc quyền.', 'CNTB hiện đại => CNTB độc quyền => CNTB tự do cạnh tranh.'], ans: 0 },
+  { lesson: 2, type: 'mcq', q: 'Một trong những đặc trưng của chủ nghĩa tư bản hiện đại là', opts: ['sự dung hợp tư bản ngân hàng với tư bản công nghiệp thành tư bản tài chính.', 'xuất hiện các tổ chức độc quyền có vai trò quyết định trong sinh hoạt kinh tế.', 'lực lượng lao động có nhiều chuyển biến về cơ cấu, chuyên môn, nghiệp vụ.', 'các cường quốc tư bản lớn nhất đã chia nhau xong đất đai trên thế giới.'], ans: 2 },
+
+  // ==================== BÀI 2: PHẦN II (6 CÂU ĐÚNG/SAI) ====================
+  { lesson: 2, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Bằng tham vọng và sức mạnh quân sự vượt trội, đặc biệt là lực lượng hải quân, đến cuối thế kỉ XIX, đầu thế kỉ XX, thực dân Anh đã lần lượt xâm chiếm nhiều thuộc địa trên thế giới. Bức tranh biếm họa “Người khổng lồ Rốt-đơ” trên một tạp chí ở Anh năm 1892 miêu tả tham vọng của Xe-xin Rốt-đơ – một ông trùm khai thác mỏ và chính trị gia người Anh – về việc xây dựng một tuyến đường sắt và điện báo kết nối các thuộc địa của Anh ở châu Phi” (SGK Lịch sử 11, Bộ Cánh diều, tr.15).', items: [
+    { text: 'a) Đoạn tư liệu trên phản ánh quá trình giành giật thuộc địa giữa hai đế quốc Anh và Pháp.', ans: false },
+    { text: 'b) Cuối thế kỉ XIX đầu thế kỉ XX, Anh là nước có hệ thống thuộc địa rộng lớn nhất thế giới.', ans: true },
+    { text: 'c) Khu vực châu Phi là thuộc địa duy nhất của thực dân Anh.', ans: false },
+    { text: 'd) Bức tranh biếm họa “Người khổng lồ Rốt-đơ” phản ánh quá trình đầu hàng của các nước châu Phi trước sự xâm lược của thực dân Anh.', ans: false }
+  ]},
+  { lesson: 2, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Một bộ phận rất nhỏ, thậm chí chỉ là 1% dân số nhưng lại chiếm giữ phần lớn của cải, tư liệu sản xuất, kiểm soát tới ¾ nguồn tài chính, tri thức và các phương tiện thông tin đại chúng chủ yếu và do đó chi phối toàn bộ xã hội. Đây là nguyên nhân sâu xa dẫn đến phong trào “99 chống lại 1” diễn ra ở Mĩ đầu năm 2011 và nhanh chóng lan rộng ở nhiều nước tư bản” (SGK Lịch sử 11, Bộ Chân trời sáng tạo, tr.18).', items: [
+    { text: 'a) Đoạn trích phản ánh một trong những thách thức mà nước Mĩ hiện nay phải đối mặt.', ans: true },
+    { text: 'b) Đoạn trích cho thấy tình trạng phân hóa giàu nghèo ở nước Mĩ diễn ra sâu sắc.', ans: true },
+    { text: 'c) Đoạn trích phản ánh các mặt tích cực và hạn chế của nước Mĩ nói riêng và chủ nghĩa tư bản hiện đại nói chung.', ans: false },
+    { text: 'd) Con số 99 trong cụm từ: phong trào “99 chống lại 1” chỉ cuộc đấu tranh của 99 dân nghèo Mĩ diễn ra vào năm 2011.', ans: false }
+  ]},
+  { lesson: 2, type: 'tf', q: 'Cho bảng dữ kiện sau về diện tích, dân số các nước đế quốc và thuộc địa (1914) (SGK Lịch sử 11, Bộ Cánh diều, tr.15):', extraHtml: `<table class="data-table"><tr><th rowspan="2">Đế quốc</th><th colspan="2">Chính quốc</th><th colspan="2">Thuộc địa</th><th colspan="2">Tổng cộng</th></tr><tr><th>Diện tích (triệu km²)</th><th>Dân số (triệu người)</th><th>Diện tích (triệu km²)</th><th>Dân số (triệu người)</th><th>Diện tích (triệu km²)</th><th>Dân số (triệu người)</th></tr><tr><td>Anh</td><td>0,3</td><td>46,5</td><td>33,5</td><td>393,5</td><td>33,8</td><td>440,0</td></tr><tr><td>Nga</td><td>5,4</td><td>136,2</td><td>17,4</td><td>33,2</td><td>22,8</td><td>169,4</td></tr><tr><td>Pháp</td><td>0,5</td><td>39,6</td><td>10,6</td><td>55,5</td><td>11,1</td><td>95,1</td></tr><tr><td>Đức</td><td>0,5</td><td>64,9</td><td>2,9</td><td>12,3</td><td>3,4</td><td>77,2</td></tr></table>`, items: [
+    { text: 'a) Trong số các nước được thống kê, Nga là nước có diện tích thuộc địa đứng thứ hai.', ans: true },
+    { text: 'b) Pháp có diện tích thuộc địa gấp hơn 5 lần của Đức.', ans: false },
+    { text: 'c) Anh là nước có hệ thống thuộc địa rộng lớn nhất thế giới.', ans: true },
+    { text: 'd) Diện tích thuộc địa của Anh nhiều hơn cả diện tích thuộc địa của Nga, Pháp, Đức cộng lại.', ans: true }
+  ]},
+  { lesson: 2, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Cuối thế kỉ XIX đầu thế kỉ XX, các nước tư bản Âu – Mĩ bước sang giai đoạn đế quốc chủ nghĩa, gắn liền với việc mở rộng quyền lực và tầm ảnh hưởng thông qua hoạt động xâm lược thuộc địa bằng vũ lực hoặc các phương thức khác” (SGK Lịch sử 11, Bộ Cánh diều, tr.14).', items: [
+    { text: 'a) Cuối thế kỉ XIX đầu thế kỉ XX, các nước tư bản chủ nghĩa chuyển sang giai đoạn đế quốc chủ nghĩa.', ans: true },
+    { text: 'b) Các nước đế quốc xâm lược thuộc địa bằng nhiều phương thức khác nhau.', ans: true },
+    { text: 'c) Chủ nghĩa đế quốc ra đời gắn liền với chính sách mở rộng và duy trì quyền kiểm soát hoặc ảnh hưởng đối với các quốc gia hay dân tộc yếu hơn ở châu Âu và châu Mĩ.', ans: false },
+    { text: 'd) Sử dụng sức mạnh quân sự là phương thức xâm lược thuộc địa chủ yếu của các nước tư bản châu Âu.', ans: true }
+  ]},
+  { lesson: 2, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Đầu thế kỉ XX, các tổ chức độc quyền ở Pháp, Mĩ, Anh chỉ chiếm khoảng 1% tổng số xí nghiệp toàn thế giới nhưng lại chiếm hơn ¾ tổng số máy hơi nước và động cơ điện, số lượng công nhân; tổng số sản phẩm làm ra chiếm gần một nửa so với toàn thế giới” (SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, tr.16).', items: [
+    { text: 'a) Các tổ chức độc quyền chỉ được hình thành ở các nước Anh, Pháp, Mĩ.', ans: false },
+    { text: 'b) Đoạn trích là một minh chứng cho thấy các tổ chức độc quyền đã chi phối sự phát triển của toàn bộ nền kinh tế thế giới.', ans: true },
+    { text: 'c) Các tổ chức độc quyền ở Pháp, Mĩ, Anh chiếm tỉ lệ gần như tuyệt đối số sản phẩm làm ra trên toàn thế giới.', ans: false },
+    { text: 'd) Chủ nghĩa tư bản chuyển từ tự do cạnh tranh sang độc quyền gắn liền với sự ra đời và phát triển của các tổ chức độc quyền.', ans: true }
+  ]},
+  { lesson: 2, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Đến cuối thế kỉ XIX, các nước phương Tây đã cơ bản hoàn thành việc xâm lược và đặt ách thống trị của mình ở châu Á (trừ Nhật Bản và Xiêm). Ấn Độ bị thực dân Anh xâm lược, trở thành nước thuộc địa. Trung Quốc bị các nước đế quốc xâm lược, xâu xé, trở thành nước nửa thuộc địa nửa phong kiến. Ở khu vực Đông Nam Á, phần lớn các nước đều trở thành thuộc địa của thực dân phương Tây” (SGK Lịch sử 11, Bộ Cánh diều, tr.14).', items: [
+    { text: 'a) Đến cuối thế kỉ XVIII, hầu hết các nước châu Á đã trở thành thuộc địa của thực dân phương Tây.', ans: true },
+    { text: 'b) Xiêm là quốc gia duy nhất ở khu vực Đông Nam Á giữ được độc lập trước sự xâm lược của thực dân phương Tây.', ans: true },
+    { text: 'c) Ấn Độ trở thành thuộc địa của nhiều nước đế quốc.', ans: false },
+    { text: 'd) Cuối thế kỉ XIX, Trung Quốc từ một quốc gia phong kiến độc lập đã trở thành nước thuộc địa nửa phong kiến.', ans: false }
+  ]},
+
+  // ==================== BÀI 3: PHẦN I (23 CÂU) ====================
+  { lesson: 3, type: 'mcq', q: 'Sau cách mạng tháng Hai năm 1917, giai cấp tư sản ở nước Nga đã thành lập', opts: ['Chính phủ tư sản lâm thời.', 'Chính phủ dân tộc dân chủ.', 'Chính quyền Xô viết.', 'Chính phủ dân chủ cộng hòa.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Sau Cách mạng tháng Hai năm 1917, chính quyền cách mạng của quần chúng nhân dân được thiết lập ở nước Nga được gọi là', opts: ['chính phủ tư sản lâm thời.', 'chính phủ dân tộc dân chủ.', 'chính quyền Xô viết.', 'chính phủ dân chủ cộng hòa.'], ans: 2 },
+  { lesson: 3, type: 'mcq', q: 'Đại hội Xô viết toàn Nga lần thứ hai họp (25/10/1917) đã tuyên bố', opts: ['thành lập chính phủ Xô viết.', 'tham chiến chống Nhật ở châu Á.', 'thành lập khối Đồng minh chống phát xít.', 'thành lập chính phủ tư sản lâm thời.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Ngay sau khi thành lập (1917), chính quyền Xô viết ở Nga do Lê-nin đứng đầu đã', opts: ['ban hành “Sắc lệnh hoà bình” và “Sắc lệnh ruộng đất”.', 'giúp đỡ các nước xã hội chủ nghĩa xây dựng đất nước.', 'tiến hành công cuộc cải tổ toàn diện đất nước.', 'lãnh đạo nhân dân lật đổ chế độ Nga hoàng.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Quốc gia nào sau đây đã thành lập nhà nước chuyên chính vô sản đầu tiên trên thế giới?', opts: ['Trung Quốc.', 'Pháp.', 'Liên Xô.', 'Mĩ.'], ans: 2 },
+  { lesson: 3, type: 'mcq', q: 'Một trong những quốc gia đầu tiên gia nhập Liên bang Cộng hoà xã hội chủ nghĩa Xô viết năm 1922 là', opts: ['Nga.', 'Nhật Bản.', 'Campuchia.', 'Lào.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Cách mạng tháng Hai năm 1917 ở Nga đã lật đổ', opts: ['chế độ quân chủ chuyên chế.', 'chế độ độc tài quân sự.', 'chính phủ tư sản lâm thời.', 'Chính quyền Xô viết.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Năm 1924, Hiến pháp đầu tiên của Liên Xô đã', opts: ['hoàn thành quá trình thành lập nhà nước Liên Xô.', 'kết thúc cuộc chiến tranh bảo vệ tổ quốc.', 'giải quyết yêu cầu hòa bình cho nhân dân.', 'giải quyết vấn đề ruộng đất cho nông dân.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Sự ra đời của Liên bang Cộng hòa xã hội chủ nghĩa Xô viết (1922) đã', opts: ['giải phóng các dân tộc trên toàn thế giới.', 'liên kết phong trào công nhân các nước tư bản.', 'tạo sức mạnh tổng hợp để xây dựng đất nước.', 'đập tan âm mưu xâm lược của các nước đế quốc.'], ans: 2 },
+  { lesson: 3, type: 'mcq', q: 'Lãnh đạo cách mạng tháng Mười Nga năm 1917 là', opts: ['Các Mác.', 'Ăng-ghen.', 'Xta-lin.', 'Lê-nin.'], ans: 3 },
+  { lesson: 3, type: 'mcq', q: 'Liên bang Cộng hoà xã hội chủ nghĩa Xô viết được thành lập trong bối cảnh lịch sử nào sau đây?', opts: ['Các nước cộng hòa Xô viết phát triển không đồng đều về kinh tế.', 'Mâu thuẫn giữa các dân tộc Nga với chế độ Nga hoàng gay gắt.', 'Các nước cộng hòa Xô viết có sự thống nhất về chính sách phát triển.', 'Mâu thuẫn giữa nước Nga với các nước cộng hòa Xô viết gay gắt.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Đặc điểm nổi bật của tình hình nước Nga sau cách mạng tháng Hai năm 1917 là', opts: ['hai chính quyền song song tồn tại.', 'nhân dân lên nắm chính quyền.', 'ba chính quyền tồn tại đồng thời.', 'giai cấp tư sản nắm chính quyền.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Mục tiêu của việc thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết là', opts: ['chống lại sự tấn công của 14 nước đế quốc.', 'thực hiện hiệu quả chính sách kinh tế mới.', 'hợp tác, giúp đỡ lẫn nhau để cùng phát triển.', 'chống lại cuộc tấn công của phát xít Đức.'], ans: 2 },
+  { lesson: 3, type: 'mcq', q: 'Năm 1917, nước Nga diễn ra hai cuộc cách mạng xã hội đều gắn với sự lãnh đạo của', opts: ['giai cấp tư sản.', 'giai cấp vô sản.', 'tiểu tư sản trí thức.', 'địa chủ phong kiến.'], ans: 1 },
+  { lesson: 3, type: 'mcq', q: 'Cách mạng tháng Mười Nga năm 1917 đã', opts: ['lật đổ được Chính phủ tư sản lâm thời.', 'lật đổ được chế độ quân chủ chuyên chế.', 'đưa nước Nga ra khỏi cuộc Chiến tranh thế giới.', 'giải phóng các dân tộc khỏi chế độ tư bản chủ nghĩa.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Năm 1922, Đại hội lần thứ nhất các Xô viết toàn Liên bang đã thông qua', opts: ['Tuyên ngôn thành lập Cộng hòa xã hội chủ nghĩa Xô viết.', 'Hiến pháp đầu tiên của Cộng hòa xã hội chủ nghĩa Xô viết.', 'Cương lĩnh xây dựng đất nước tiến lên chủ nghĩa xã hội.', 'Báo cáo chính trị và báo cáo sửa đổi điều lệ Đảng Cộng sản.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Một trong những tư tưởng chỉ đạo của Lê-nin trong việc thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết năm 1922 là', opts: ['sự bình đẳng về mọi mặt.', 'phân biệt về tôn giáo.', 'đồng hóa về văn hóa.', 'phân biệt về chủng tộc.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Đối với Liên Xô, sự ra đời của Liên bang Cộng hoà xã hội chủ nghĩa Xô viết không có ý nghĩa nào sau đây?', opts: ['Thể hiện sức mạnh đoàn kết, giúp đỡ nhau giữa các dân tộc Xô viết.', 'Phù hợp với lợi ích chung của các dân tộc trên đất nước Xô viết.', 'Tăng cường vị thế của Nhà nước Liên Xô trên trường quốc tế.', 'Tạo tiền đề cho sự ra đời của hệ thống xã hội chủ nghĩa trên thế giới.'], ans: 3 },
+  { lesson: 3, type: 'mcq', q: 'Nội dung nào sau đây phản ánh đúng sự ra đời của Liên bang Cộng hòa xã hội chủ nghĩa Xô viết năm 1922?', opts: ['Phù hợp với lợi ích chung của các dân tộc trên đất nước Xô viết.', 'Phù hợp với xu thế phát triển chung của thế giới lúc bấy giờ.', 'Đáp ứng được nhiệm vụ cấp bách trong đấu tranh chống ngoại xâm.', 'Chưa phù hợp với nguyện vọng các dân tộc trên đất nước Xô viết.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Đối với thế giới, sự ra đời của Liên bang Cộng hoà xã hội chủ nghĩa Xô viết không có ý nghĩa nào sau đây?', opts: ['Tăng cường vị thế của Nhà nước Liên Xô trên trường quốc tế.', 'Cổ vũ mạnh mẽ phong trào giải phóng dân tộc trên thế giới.', 'Để lại nhiều bài học kinh nghiệm quý báu về mô hình nhà nước.', 'Chứng minh học thuyết Mác – Lê-nin là đúng đắn, khoa học.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Khi mới thành lập, Liên bang Cộng hòa xã hội chủ nghĩa Xô viết gồm 4 nước Cộng hòa là', opts: ['Nga, U-crai-na, Bê-lô-rút-xi-a và Ngoại Cáp-ca-dơ.', 'Nga, Hung-ga-ri, Bê-lô-rút-xi-a và Ngoại Cáp-ca-dơ.', 'Nga, Hung-ga-ri, Bun-ga-ri và Ngoại Cáp-ca-dơ.', 'Liên Xô, Hung-ga-ri, Bun-ga-ri và Ngoại Cáp-ca-dơ.'], ans: 0 },
+  { lesson: 3, type: 'mcq', q: 'Thắng lợi nào sau đây dẫn đến sự ra đời của Nhà nước xã hội chủ nghĩa đầu tiên trên thế giới?', opts: ['Cách mạng tháng Hai (1917) ở Nga.', 'Cách mạng tháng Mười Nga (1917).', 'Cách mạng Nga năm 1905 - 1907.', 'Công xã Pa-ri năm 1871 ở Pháp.'], ans: 1 },
+  { lesson: 3, type: 'mcq', q: 'Liên bang Cộng hòa xã hội chủ nghĩa Xô viết ra đời năm 1922 đã', opts: ['đánh dấu Liên Xô hoàn thành công cuộc đấu tranh chống thù trong, giặc ngoài.', 'chứng tỏ chế độ quân chủ chuyên chế do Nga hoàng đứng đầu hoàn toàn sụp đổ.', 'đánh dấu sự xác lập chế độ xã hội chủ nghĩa trên toàn lãnh thổ Liên Xô rộng lớn.', 'đánh dấu Liên Xô đã hoàn thành công cuộc xây dựng chế độ xã hội chủ nghĩa.'], ans: 2 },
+
+  // ==================== BÀI 3: PHẦN II (2 CÂU ĐÚNG/SAI) ====================
+  { lesson: 3, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Đến năm 1922, nước Nga Xô viết và các nước cộng hòa Xô viết đồng minh có sự phát triển không đồng đều về kinh tế, văn hóa, chính trị. Trong khi Nga là nước có nền kinh tế công nghiệp tương đối phát triển (nhờ thực hiện chính sách Kinh tế mới), các nước khác vẫn trong tình trạng nông nghiệp lạc hậu. Các nước cộng hòa Xô viết cũng chưa có sự thống nhất về các chính sách phát triển kinh tế, văn hóa, giáo dục,… Điều đó đặt ra yêu cầu phải hợp tác, giúp đỡ lẫn nhau để cùng phát triển” (SGK Lịch sử 11, Bộ Cánh diều, tr.21).', items: [
+    { text: 'a) Liên bang Cộng hòa xã hội chủ nghĩa Xô viết được thành lập năm 1922 trong bối cảnh kinh tế nước Nga và các nước Xô viết khác có sự phát triển tương đối đồng đều.', ans: false },
+    { text: 'b) Một trong những nguyên nhân thúc đẩy sự thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết là do nhu cầu hợp tác, giúp đỡ nhau để cùng phát triển.', ans: true },
+    { text: 'c) Trước khi thành lập Liên bang Xô viết, các nước cộng hòa Xô viết đã có sự thống nhất bước đầu về các chính sách phát triển.', ans: false },
+    { text: 'd) Năm 1922, kinh tế nước Nga phát triển là do thực hiện chính sách Kinh tế mới do Lê-nin đề xướng.', ans: true }
+  ]},
+  { lesson: 3, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Liên Xô, nhà nước chuyên chính vô sản đầu tiên, đã tỏ ra có sức mạnh phi thường. Ngay từ khi mới thành lập, Liên Xô chẳng những đập tan được bọn phản cách mạng trong nước, mà còn đánh thắng cuộc can thiệp vũ trang của 14 nước đế quốc, chưa đầy 30 năm sau lại đánh thắng hoàn toàn bọn phát xít Đức – Ý – Nhật, chẳng những bảo vệ được Nhà nước Xô viết mình mà còn góp phần to lớn giải phóng nhiều nước khác, cứu cả loài người khỏi ách nô lệ của chủ nghĩa phát xít” (SGK Lịch sử 11, Bộ Cánh diều, tr.22).', items: [
+    { text: 'a) Liên Xô là một trong những nhà nước chuyên chính vô sản đầu tiên trên thế giới.', ans: false },
+    { text: 'b) Nhà nước Liên Xô bắt đầu tỏ ra có sức mạnh phi thường từ sau khi đánh bại phát xít.', ans: false },
+    { text: 'c) Việc Liên Xô đánh thắng phát xít đã tạo điều kiện cho nhiều nước khác đứng lên tự giải phóng.', ans: true },
+    { text: 'd) Đoạn trích đã tóm tắt quá trình thành lập Liên bang Cộng hòa xã hội chủ nghĩa Xô viết.', ans: false }
+  ]},
+
+  // ==================== BÀI 4: PHẦN I (32 CÂU) ====================
+  { lesson: 4, type: 'mcq', q: 'Nhận xét nào sau đây là đúng về tình hình kinh tế - xã hội các nước Đông Âu từ năm 1950 đến nửa đầu những năm 70 của thế kỉ XX?', opts: ['Phát triển, đạt nhiều thành tựu.', 'Khủng hoảng trầm trọng.', 'Phát triển xen lẫn suy thoái.', 'Phát triển thần kì.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Quốc gia nào sau đây ở châu Á chọn con đường phát triển lên chủ nghĩa xã hội?', opts: ['Trung Quốc.', 'Nhật Bản.', 'Thái Lan.', 'Hàn Quốc.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Quốc gia nào sau đây ở khu vực Đông Nam Á chọn con đường phát triển lên chủ nghĩa xã hội?', opts: ['Việt Nam.', 'In-đô-nê-xi-a.', 'Thái Lan.', 'Phi-líp-pin.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Quốc gia nào sau đây ở Mĩ La-tinh chọn con đường phát triển lên chủ nghĩa xã hội?', opts: ['Cu-ba.', 'Bra-xin.', 'Ác-hen-ti-na.', 'Mê-hi-cô.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trong những năm 1944-1945, ở Đông Âu, quốc gia nào sau đây đã thành lập chính quyền dân chủ nhân dân?', opts: ['Hà Lan.', 'Trung Quốc.', 'Bun-ga-ri.', 'Liên Xô.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Nhiệm vụ chủ yếu của các nước Đông Âu từ năm 1950 đến đầu những năm 70 của thế kỉ XX là', opts: ['xây dựng chủ nghĩa xã hội.', 'lật đổ chế độ quân chủ chuyên chế.', 'đánh bại chủ nghĩa phát xít.', 'lật đổ chế độ thực dân kiểu mới.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Tháng 12-1975, nhà nước nào sau đây được thành lập và đi lên xây dựng chủ nghĩa xã hội?', opts: ['Cộng hòa Nhân dân Trung Hoa.', 'Cộng hòa In-đô-nê-xi-a.', 'Cộng hòa Dân chủ Nhân dân Lào.', 'Cộng hòa Nhân dân Cam-pu-chia.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Chính sách đối ngoại của Trung Quốc từ những năm 80 của thế kỉ XX là', opts: ['thiết lập quan hệ đối tác chiến lược với tất cả các quốc gia.', 'thực hiện chính sách cấm vận đối với khu vực Đông Nam Á.', 'đa dạng hóa, đa phương hóa trong quan hệ với các nước.', 'bắt tay với Mĩ chống lại Liên Xô và các nước Tây Âu.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Mục tiêu chủ yếu của công cuộc cải cách, mở cửa ở Trung Quốc (1978) là', opts: ['đưa Trung Quốc thành quốc gia giàu mạnh, dân chủ, văn minh.', 'mở rộng quan hệ hợp tác toàn diện với các nước tư bản phát triển.', 'hoàn thành triệt để cuộc cách mạng dân tộc dân chủ nhân dân.', 'phát triển kinh tế xã hội chủ nghĩa do Nhà nước nắm độc quyền.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trước Chiến tranh thế giới thứ hai, quốc gia duy nhất đi theo con đường xã hội chủ nghĩa là', opts: ['Lào.', 'Trung Quốc.', 'Liên Xô.', 'Việt Nam.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Trong những năm 1944-1945, quốc gia nào sau đây ở Đông Âu thành lập chính quyền dân chủ nhân dân?', opts: ['Ba Lan.', 'An-giê-ri.', 'Cu-ba.', 'Nhật Bản.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Năm 1948, ở châu Á, quốc gia nào sau đây đi lên xây dựng chủ nghĩa xã hội?', opts: ['Triều Tiên.', 'Cu-ba.', 'Việt Nam.', 'Lào.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Năm 1949, ở châu Á, quốc gia nào sau đây đi lên xây dựng chủ nghĩa xã hội?', opts: ['Triều Tiên.', 'Cu-ba.', 'Trung Quốc.', 'Lào.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Trong công cuộc cải cách, mở cửa (12/1978), Trung Quốc xác định lấy phát triển lĩnh vực nào làm trung tâm?', opts: ['kinh tế.', 'chính trị.', 'quân sự.', 'văn hóa.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trong 30 năm thực hiện đường lối cải cách (1978 - 2008), Trung Quốc đã đạt được thành tựu nào sau đây về kinh tế?', opts: ['Là quốc gia thứ ba thế giới có tàu và người bay vào vũ trụ.', 'Thiết lập được quan hệ đối ngoại với hầu hết các quốc gia.', 'Là cường quốc xuất khẩu vũ khí và trang thiết bị quân sự.', 'Là quốc gia có tốc độ phát triển kinh tế nhanh nhất thế giới.'], ans: 3 },
+  { lesson: 4, type: 'mcq', q: 'Sự ra đời của quốc gia nào sau đây đã mở rộng không gian địa lý của chủ nghĩa xã hội sang khu vực Mĩ Latinh?', opts: ['Thái Lan.', 'Cu-ba.', 'Ấn Độ.', 'I-ran.'], ans: 1 },
+  { lesson: 4, type: 'mcq', q: 'Năm 2010, ở châu Á, quốc gia nào sau đây có quy mô kinh tế lớn thứ hai thế giới?', opts: ['Trung Quốc.', 'Ấn Độ.', 'Anh.', 'Pháp.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trong những năm 1944-1945, các nước Đông Âu nổi dậy giành chính quyền xuất phát từ điều kiện khách quan thuận lợi nào sau đây?', opts: ['Phát xít Nhật đã bị tiêu diệt hoàn toàn.', 'Chiến tranh thế giới thứ hai lan rộng sang châu Á.', 'Khối Đồng minh chống phát xít được thành lập.', 'Thất bại của chủ nghĩa phát xít ở châu Âu.'], ans: 3 },
+  { lesson: 4, type: 'mcq', q: 'Quốc gia nào sau đây thành lập nhà nước dân chủ nhân dân ở Đông Âu trong giai đoạn 1945-1949?', opts: ['Trung Quốc.', 'Ấn Độ.', 'Hà Lan.', 'Nam Tư.'], ans: 3 },
+  { lesson: 4, type: 'mcq', q: 'Nguyên nhân khách quan dẫn đến sự sụp đổ chủ nghĩa xã hội ở Liên Xô và Đông Âu là', opts: ['đường lối lãnh đạo chủ quan, duy ý chí.', 'chưa khai thác tốt thành tựu khoa học kĩ thuật.', 'công cuộc cải tổ đất nước có nhiều sai lầm.', 'sự chống phá quyết liệt của các thế lực thù địch.'], ans: 3 },
+  { lesson: 4, type: 'mcq', q: 'Một trong những nguyên nhân chủ quan dẫn đến sự sụp đổ của chế độ xã hội chủ nghĩa ở Liên Xô và Đông Âu là', opts: ['sự chống phá của các thế lực thù địch.', 'đường lối lãnh đạo chủ quan, duy ý chí.', 'không chịu tiến hành cải tổ đất nước.', 'niềm tin của các tầng lớp nhân dân suy giảm.'], ans: 1 },
+  { lesson: 4, type: 'mcq', q: 'Về chính trị, công cuộc cải cách mở cửa của Trung Quốc (1978) đạt được thành tựu nổi bật nào sau đây?', opts: ['Xây dựng được hệ thống lí luận chủ nghĩa xã hội đặc sắc Trung Quốc.', 'Duy trì được tốc độ tăng trưởng kinh tế cao liên tục trong nhiều năm.', 'Đời sống các tầng lớp nhân dân ngày càng được cải thiện và nâng cao.', 'Trở thành cường quốc về xuất khẩu vũ khí và trang thiết bị quân sự.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Một trong những khó khăn của Cu-ba trong công cuộc xây dựng chủ nghĩa xã hội từ 1991 đến nay là', opts: ['lệnh cấm vận kéo dài của Mĩ và phương Tây.', 'sự chống phá quyết liệt của các thế lực thù địch.', 'mô hình kinh tế tập trung bao cấp kém hiệu quả.', 'mâu thuẫn sắc tộc, tôn giáo không thể điều hòa.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trong những năm 1944 - 1949, nhân dân các nước ở khu vực nào sau đây nổi dậy giành chính quyền, thành lập nhà nước dân chủ nhân dân?', opts: ['Tây Âu.', 'Đông Âu.', 'Châu Phi.', 'Mĩ La-tinh.'], ans: 1 },
+  { lesson: 4, type: 'mcq', q: 'Từ năm 1991 đến nay, nhân dân một số nước ở khu vực nào sau đây tiến hành cải cách, đổi mới, kiên định con đường xã hội chủ nghĩa?', opts: ['Châu Á.', 'Bắc Phi.', 'Tây Âu.', 'Nam Phi.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Tháng 12-1978, quốc gia nào sau đây thực hiện công cuộc cải cách, mở cửa, đạt được thành tựu to lớn về kinh tế xã hội?', opts: ['Liên Xô.', 'Cu-ba.', 'Ấn Độ.', 'Trung Quốc.'], ans: 3 },
+  { lesson: 4, type: 'mcq', q: 'Từ năm 1991 đến nay, quốc gia nào sau đây không xây dựng chủ nghĩa xã hội?', opts: ['Trung Quốc.', 'Cu-ba.', 'Ấn Độ.', 'Việt Nam.'], ans: 2 },
+  { lesson: 4, type: 'mcq', q: 'Năm 1999, Trung Quốc đã thu hồi chủ quyền đối với vùng lãnh thổ nào sau đây?', opts: ['Ma Cao.', 'Thượng Hải.', 'Đài Loan.', 'Hồng Kông.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Từ năm 1976 đến nay, nhân dân Việt Nam thực hiện nhiệm vụ chiến lược nào sau đây?', opts: ['Xây dựng chủ nghĩa xã hội.', 'Kháng chiến chống Pháp.', 'Kháng chiến chống Mĩ.', 'Giải phóng dân tộc.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Thắng lợi của Hồng quân Liên Xô trong những năm 1944 – 1945 đã tạo điều kiện cho sự ra đời của nhà nước dân chủ nhân dân ở các nước', opts: ['Đông Âu.', 'Tây Âu.', 'Nam Âu.', 'Bắc Âu.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Miền Bắc Việt Nam tiến lên xây dựng chủ nghĩa xã hội sau thắng lợi của', opts: ['cuộc kháng chiến chống thực dân Pháp năm 1954.', 'Hiệp định Pa-ri về Việt Nam được kí kết năm 1973.', 'cuộc kháng chiến chống Mĩ và tay sai năm 1975.', 'quá trình thống nhất hai miền Nam – Bắc năm 1976.'], ans: 0 },
+  { lesson: 4, type: 'mcq', q: 'Trong những năm 1945 - 1949, nhân dân các nước Đông Âu hoàn thành một trong những nhiệm vụ nào sau đây?', opts: ['điện khí hóa toàn quốc.', 'đổi mới đất nước.', 'kháng chiến chống Mĩ.', 'quốc hữu hóa nhà máy.'], ans: 3 },
+
+  // ==================== BÀI 4: PHẦN II (8 CÂU ĐÚNG/SAI) ====================
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Từ năm 1991, sau sự sụp đổ của chế độ xã hội chủ nghĩa ở các nước Đông Âu và sự tan rã của Liên bang Cộng hòa xã hội chủ nghĩa Xô viết, chủ nghĩa xã hội không còn là một hệ thống thế giới. Tuy vậy, công cuộc xây dựng chủ nghĩa xã hội ở một số nước như Trung Quốc, Việt Nam, Lào, Cu-ba… vẫn tiếp tục được duy trì và đẩy mạnh” (SGK Lịch sử 11, Bộ Cánh diều, tr.26).', items: [
+    { text: 'a) Từ năm 1991 đến nay, hệ thống xã hội chủ nghĩa trên thế giới không còn tồn tại nữa.', ans: true },
+    { text: 'b) Năm 1991, chế độ xã hội chủ nghĩa ở Liên Xô và các nước Đông Âu bị sụp đổ.', ans: true },
+    { text: 'c) Hiện nay, một số quốc gia trên thế giới như Trung Quốc, Việt Nam, Lào, Campuchia vẫn kiên định con đường xã hội chủ nghĩa.', ans: false },
+    { text: 'd) Sự sụp đổ của hệ thống xã hội chủ nghĩa ở Liên Xô và Đông Âu cho thấy những hạn chế, sai lầm trong học thuyết Mác – Lê-nin.', ans: false }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Nhận định của nhà kinh tế học người Mĩ gốc Nga (đạt giải Nô-ben kinh tế năm 1973) Vát-xi-li Lê-ôn-ti-ép: Kinh tế Liên Xô vào thập niên 1980 như “một con thuyền không thể đón gió” và dự báo nước này phải có những cải cách kịp thời. Ông cũng chỉ trích hệ thống tài chính Mĩ vào thời điểm đó – vốn không bị chính phủ kiểm soát, cho rằng kinh tế Mĩ như “con thuyền ra khơi mà không có bản đồ và la bàn”. Ông tin rằng cả hai hệ thống kinh tế Liên Xô và Mĩ đều cần cải cách. Đối với Liên Xô lúc đó đáng lẽ phải thực hiện bước quá độ từ kinh tế tập trung sang kinh tế thị trường một cách từ từ, dưới sự giám sát của chính quyền. Tuy nhiên, trên thực tế, hệ thống kinh tế Liên Xô đã bị đốt cháy thành tro và hệ thống thị trường ở Nga về sau đã phải xây dựng lại từ đầu” (SGV Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, tr.73 – 74).', items: [
+    { text: 'a) Đoạn trích phản ánh nguyên nhân khách quan dẫn đến sự sụp đổ của chế độ xã hội chủ nghĩa ở Liên Xô.', ans: false },
+    { text: 'b) Kinh tế Liên Xô vào thập niên 1980 phát triển mạnh mẽ, trong khi hệ thống tài chính Mĩ lại đang khủng hoảng.', ans: false },
+    { text: 'c) Nếu Liên Xô không tiến hành cải cách thì chắc chắn kinh tế Liên Xô sẽ không bị “đốt cháy thành tro” và Liên Xô sẽ không bị sụp đổ.', ans: false },
+    { text: 'd) Theo tác giả, vào thập niên 1980, Liên Xô cần chuyển đổi từ nền kinh tế tập trung bao cấp sang kinh tế thị trường một cách nhanh chóng, ồ ạt.', ans: false }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Hội nghị Trung ương 3 (khóa XI) của Ban Chấp hành Trung ương Đảng Cộng sản Trung Quốc (12/1978) đã quyết định thực hiện cải cách, mở cửa, xây dựng hiện đại hóa xã hội chủ nghĩa. Đường lối này được nâng lên thành đường lối chung tại Đại hội XII (1982) và Đại hội XIII (1987) của Đảng Cộng sản Trung Quốc: lấy phát triển kinh tế làm trung tâm, tiến hành cải cách, mở cửa, chuyển nền kinh tế kế hoạch hóa tập trung sang nền kinh tế thị trường xã hội chủ nghĩa linh hoạt hơn nhằm hiện đại hóa và xây dựng chủ nghĩa xã hội đặc sắc Trung Quốc, với mục tiêu biến Trung Quốc thành quốc gia giàu mạnh, dân chủ và văn minh” (SGK Lịch sử 11, Bộ Cánh diều, tr.27).', items: [
+    { text: 'a) Tại Đại hội XIII (1987), Ban Chấp hành Trung ương Đảng Cộng sản Trung Quốc đã quyết định cải cách, mở cửa đất nước.', ans: false },
+    { text: 'b) Công cuộc cải cách, mở cửa của Trung Quốc nhằm mục tiêu cuối cùng là chuyển đổi cách thức hoạt động của nền kinh tế theo hướng hiện đại.', ans: false },
+    { text: 'c) Nội dung đường lối cải cách – mở cửa ở Trung Quốc được xây dựng và hoàn thiện trong khoảng thời gian từ 1978 đến 1987.', ans: false },
+    { text: 'd) Trong nội dung đường lối cải cách, mở cửa, Trung Quốc xác định sẽ xây dựng một mô hình xã hội chủ nghĩa mang màu sắc riêng của đất nước mình.', ans: true }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Năm 2020, 75% thành phố của Trung Quốc với dân số 500 nghìn người trở lên có đường sắt cao tốc. Trong khi đó, ở Tây Ban Nha, quốc gia có mạng lưới đường sắt tốc độ cao lớn nhất châu Âu và đứng thứ 2 toàn cầu chỉ có hơn 3 nghìn km đường sắt chuyên dụng đáp ứng tàu tốc độ 250km/h. Ở Vương quốc Anh chỉ có 107km, trong khi ở Mĩ chỉ có 1 tuyến đường sắt gần như đủ tiêu chuẩn cho tàu cao tốc. Đến cuối năm 2021, tổng chiều dài đường sắt của Trung Quốc đã lên đến 150 nghìn km, bao gồm 40 nghìn km đường sắt cao tốc. Đường sắt cao tốc Trung Quốc hiện chiếm 66,3% tổng chiều dài đường sắt cao tốc trên toàn thế giới” (Theo Tạp chí Giao thông vận tải).', items: [
+    { text: 'a) Hiện nay, Trung Quốc là quốc gia có mạng lưới đường sắt cao tốc phát triển nhất thế giới.', ans: true },
+    { text: 'b) Tổng chiều dài đường sắt cao tốc của Trung Quốc nhiều hơn tổng chiều dài đường sắt cao tốc của Tây Ban Nha, Anh, Mĩ cộng lại.', ans: true },
+    { text: 'c) Đoạn trích phản ánh một trong những thành tựu nổi bật về khoa học – kĩ thuật và phát triển cơ sở hạ tầng của Trung Quốc hiện nay.', ans: true },
+    { text: 'd) Năm 2020, toàn bộ các thành phố của Trung Quốc đều có hệ thống đường sắt cao tốc bao phủ.', ans: false }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Mỗi trẻ em sinh ra ở Cu-ba, khi lên 5 tuổi, đều có quyền bắt đầu những năm tháng đi học hoàn toàn miễn phí. Học xong mẫu giáo, các em sẽ được chuyển sang học tại một trường tiểu học. Phổ cập giáo dục áp dụng với mọi trẻ em từ 6 tuổi tới hết cấp hai cơ bản (thường là 15 tuổi). Giáo dục, gồm cả giáo dục đại học đều miễn phí với mọi công dân Cu-ba, không phân biệt giàu nghèo hay thành phần xã hội. Ngày nay, chế độ giáo dục bắt buộc ở Cu-ba là từ mẫu giáo đến lớp 9… Cu-ba đứng số 1 thế giới về tỉ lệ đầu tư ngân sách cho giáo dục, chiếm tới 13% GDP. Với số lượng đi kèm chất lượng đào tạo hiện nay, UNESCO xếp Cu-ba là nước có hệ thống giáo dục tốt nhất khu vực Mĩ Latinh, bất chấp việc Cu-ba là một trong những quốc gia kém phát triển nhất khu vực” (Theo Tạp chí Mặt trận, phát hành ngày 10/8/2018).', items: [
+    { text: 'a) Hệ thống giáo dục miễn phí luôn là ưu tiên hàng đầu của Cu-ba, thể hiện tính ưu việt của chủ nghĩa xã hội.', ans: true },
+    { text: 'b) Cu-ba thực hiện chính sách giáo dục bắt buộc đối với mọi trẻ em đến hết cấp hai cơ bản.', ans: true },
+    { text: 'c) Do có nền kinh tế phát triển hàng đầu khu vực Mĩ Latinh nên Cu-ba có điều kiện tốt nhất đầu tư cho giáo dục.', ans: false },
+    { text: 'd) Giáo dục Cu-ba được cộng đồng quốc tế đánh giá cao về chất lượng đào tạo.', ans: true }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Từ năm 1945 đến năm 1949, các nước Đông Âu tiến hành cải cách ruộng đất, xóa bỏ chế độ chiếm hữu ruộng đất của địa chủ, quốc hữu hóa các xí nghiệp của tư bản, ban hành các quyền tự do dân chủ.\nTừ năm 1950 đến nửa đầu thập niên 1970, công cuộc xây dựng chủ nghĩa xã hội ở Đông Âu nhận được sự giúp đỡ của Liên Xô đã đạt được nhiều tiến bộ: công nghiệp hóa, điện khí hóa, phát triển nông nghiệp,…\nNửa sau thập niên 1970 và trong thập niên 1980, các nước Đông Âu lâm vào suy thoái, khủng hoảng kinh tế - xã hội trầm trọng” (SGK Lịch sử 11, Bộ Chân trời sáng tạo, tr.22).', items: [
+    { text: 'a) Quá trình phát triển của chủ nghĩa xã hội ở Đông Âu từ sau chiến tranh thế giới thứ hai đến hết thập niên 1980 chia thành 3 giai đoạn khác nhau.', ans: true },
+    { text: 'b) Một trong những nhiệm vụ trọng tâm của các nước Đông Âu từ 1945 – 1949 là xây dựng chủ nghĩa xã hội.', ans: false },
+    { text: 'c) Công cuộc xây dựng chủ nghĩa xã hội ở các nước Đông Âu đạt được nhiều thành tựu chủ yếu nhờ tinh thần tự lực tự cường, không có sự giúp đỡ từ bên ngoài.', ans: false },
+    { text: 'd) Nền kinh tế - xã hội các nước Đông Âu bắt đầu có dấu hiệu suy thoái, khủng hoảng từ thập niên 1980.', ans: false }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“Thắng lợi của Liên Xô và các nước Đồng minh (Anh – Pháp – Mĩ) cùng lực lượng dân chủ thế giới chống phát xít trong chiến tranh thế giới thứ hai đã tạo điều kiện cho phong trào giải phóng dân tộc bùng nổ mạnh mẽ, dẫn đến sự ra đời nhiều nước xã hội chủ nghĩa ở châu Á và ở Cu-ba (khu vực Mĩ Latinh)” (SGK Lịch sử 11, Bộ Chân trời sáng tạo, tr.22).', items: [
+    { text: 'a) Sau chiến tranh thế giới thứ hai, hệ thống xã hội chủ nghĩa mở rộng sang châu Á và khu vực Mĩ Latinh.', ans: true },
+    { text: 'b) Hiện nay, Cu-ba là quốc gia duy nhất ở khu vực Mĩ Latinh đi theo con đường xã hội chủ nghĩa.', ans: true },
+    { text: 'c) Lực lượng phát xít bị đánh bại trong chiến tranh thế giới thứ hai tạo điều kiện thuận lợi cho sự ra đời của nhiều nước xã hội chủ nghĩa.', ans: true },
+    { text: 'd) Nguyên nhân quyết định sự phát triển của phong trào giải phóng dân tộc sau chiến tranh thế giới thứ hai là do thắng lợi phe Đồng minh trong cuộc chiến chống phát xít.', ans: false }
+  ]},
+  { lesson: 4, type: 'tf', q: 'Đọc đoạn tư liệu sau đây:\n“…tổng sản phẩm trong nước (GDP) đã tăng từ 367,9 tỉ nhân dân tệ (1978) lên hơn 114 nghìn tỉ nhân dân tệ (2021). Bình quân tăng trưởng hàng năm là khoảng 9,5% (1980 – 2017), vượt xa mức trung bình thế giới là 2,9%. Quy mô GDP của Trung Quốc từ vị trí thứ tám thế giới (những năm 80 của thế kỉ XX), vươn lên vị trí thứ hai thế giới (từ năm 2010)” (SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, tr.27).', items: [
+    { text: 'a) Đoạn trích phản ánh thành tựu của Trung Quốc trên lĩnh vực kinh tế, khoa học – kĩ thuật từ khi tiến hành cải cách – mở cửa.', ans: false },
+    { text: 'b) Một trong những thành tựu trong công cuộc cải cách – mở cửa ở Trung Quốc là duy trì được tốc độ tăng trưởng kinh tế cao trong nhiều năm.', ans: true },
+    { text: 'c) Tốc độ tăng trưởng kinh tế của Trung Quốc giai đoạn 1980 – 2017 cao hơn 4 lần so với mức trung bình chung của thế giới.', ans: false },
+    { text: 'd) Từ khi tiến hành cải cách, mở cửa (1978) đến nay, quy mô GDP của Trung Quốc luôn duy trì vị trí thứ hai trên thế giới.', ans: false }
+  ]}
+];
+
+let activeQuestions = [];
+let submitted = false;
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function initQuiz() {
+  submitted = false;
+  document.getElementById('scoreBanner').classList.remove('show');
+  const mode = document.getElementById('lessonSelect').value;
+  const doShuffleOpts = document.getElementById('shuffleOpts').checked;
+
+  let pool = [];
+  if (mode === 'all') {
+    pool = [...DB];
+  } else if (mode === 'exam') {
+    const mcqs = shuffleArray(DB.filter(q => q.type === 'mcq')).slice(0, 24);
+    const tfs = shuffleArray(DB.filter(q => q.type === 'tf')).slice(0, 4);
+    pool = [...mcqs, ...tfs];
+  } else {
+    const lessonId = parseInt(mode, 10);
+    pool = DB.filter(q => q.lesson === lessonId);
+  }
+
+  const mcqList = shuffleArray(pool.filter(q => q.type === 'mcq')).map(q => {
+    const indices = [0, 1, 2, 3];
+    const order = doShuffleOpts ? shuffleArray(indices) : indices;
+    const newOpts = order.map(i => q.opts[i]);
+    const newAns = order.indexOf(q.ans);
+    return { ...q, displayOpts: newOpts, displayAns: newAns, userAns: null };
+  });
+
+  const tfList = shuffleArray(pool.filter(q => q.type === 'tf')).map(q => {
+    return {
+      ...q,
+      userAns: new Array(q.items.length).fill(null)
+    };
+  });
+
+  activeQuestions = [...mcqList, ...tfList];
+  renderQuiz();
+  updateProgress();
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+
+  const mcqCount = activeQuestions.filter(q => q.type === 'mcq').length;
+  const tfCount = activeQuestions.filter(q => q.type === 'tf').length;
+
+  if (mcqCount > 0) {
+    const h = document.createElement('div');
+    h.className = 'section-title';
+    h.textContent = `PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (${mcqCount} câu)`;
+    container.appendChild(h);
+  }
+
+  let tfHeaderAdded = false;
+  const letters = ['A', 'B', 'C', 'D'];
+
+  activeQuestions.forEach((q, idx) => {
+    if (q.type === 'tf' && !tfHeaderAdded && tfCount > 0) {
+      tfHeaderAdded = true;
+      const h2 = document.createElement('div');
+      h2.className = 'section-title';
+      h2.textContent = `PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG / SAI (${tfCount} câu)`;
+      container.appendChild(h2);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `q-card-${idx}`;
+
+    let html = `
+      <div class="q-header">
+        <span class="q-num">Câu ${idx + 1}</span>
+        <span class="q-badge">Bài ${q.lesson}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      ${q.extraHtml || ''}
+    `;
+
+    if (q.type === 'mcq') {
+      html += `<div class="options-list" id="opts-${idx}">`;
+      q.displayOpts.forEach((optText, oIdx) => {
+        html += `
+          <label class="option-item" id="opt-label-${idx}-${oIdx}">
+            <input type="radio" name="q-${idx}" value="${oIdx}" onchange="selectMcq(${idx}, ${oIdx})">
+            <span><strong>${letters[oIdx]}.</strong> ${optText}</span>
+          </label>
+        `;
+      });
+      html += `</div>`;
+    } else {
+      html += `
+        <table class="tf-table">
+          <thead>
+            <tr>
+              <th>Nội dung mệnh đề</th>
+              <th>Đúng</th>
+              <th>Sai</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      q.items.forEach((item, sIdx) => {
+        html += `
+          <tr id="tf-row-${idx}-${sIdx}">
+            <td>${item.text}</td>
+            <td class="tf-choice">
+              <input type="radio" name="tf-${idx}-${sIdx}" value="true" onchange="selectTf(${idx}, ${sIdx}, true)">
+            </td>
+            <td class="tf-choice">
+              <input type="radio" name="tf-${idx}-${sIdx}" value="false" onchange="selectTf(${idx}, ${sIdx}, false)">
+            </td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+    }
+
+    html += `<div class="result-box" id="res-${idx}"></div>`;
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+
+  renderPalette();
+}
+
+function renderPalette() {
+  const pal = document.getElementById('palette');
+  pal.innerHTML = '';
+  activeQuestions.forEach((_, idx) => {
+    const btn = document.createElement('div');
+    btn.className = 'p-btn';
+    btn.id = `p-btn-${idx}`;
+    btn.textContent = idx + 1;
+    btn.onclick = () => {
+      document.getElementById(`q-card-${idx}`).scrollIntoView({ behavior: 'smooth' });
+    };
+    pal.appendChild(btn);
+  });
+}
+
+function selectMcq(qIdx, oIdx) {
+  if (submitted) return;
+  activeQuestions[qIdx].userAns = oIdx;
+  for (let i = 0; i < 4; i++) {
+    const lbl = document.getElementById(`opt-label-${qIdx}-${i}`);
+    lbl.classList.toggle('selected', i === oIdx);
+  }
+  updateProgress();
+}
+
+function selectTf(qIdx, sIdx, val) {
+  if (submitted) return;
+  activeQuestions[qIdx].userAns[sIdx] = val;
+  updateProgress();
+}
+
+function isQuestionAnswered(q) {
+  if (q.type === 'mcq') return q.userAns !== null;
+  return q.userAns.every(v => v !== null);
+}
+
+function updateProgress() {
+  let doneCount = 0;
+  activeQuestions.forEach((q, idx) => {
+    const done = isQuestionAnswered(q);
+    if (done) doneCount++;
+    const btn = document.getElementById(`p-btn-${idx}`);
+    if (btn && !submitted) {
+      btn.classList.toggle('done', done);
+    }
+  });
+  document.getElementById('progressText').textContent = `${doneCount}/${activeQuestions.length} đã làm`;
+}
+
+function submitQuiz() {
+  submitted = true;
+  const letters = ['A', 'B', 'C', 'D'];
+  let totalPoints = 0;
+  let maxPoints = 0;
+  let fullCorrectCount = 0;
+
+  activeQuestions.forEach((q, idx) => {
+    const resBox = document.getElementById(`res-${idx}`);
+    const pBtn = document.getElementById(`p-btn-${idx}`);
+    pBtn.classList.remove('done');
+
+    if (q.type === 'mcq') {
+      maxPoints += 1;
+      const isCorrect = q.userAns === q.displayAns;
+      if (isCorrect) {
+        totalPoints += 1;
+        fullCorrectCount++;
+        pBtn.classList.add('p-correct');
+      } else {
+        pBtn.classList.add('p-wrong');
+      }
+
+      for (let i = 0; i < 4; i++) {
+        const lbl = document.getElementById(`opt-label-${idx}-${i}`);
+        lbl.classList.remove('selected');
+        if (i === q.displayAns) lbl.classList.add('correct-ans');
+        else if (i === q.userAns && !isCorrect) lbl.classList.add('wrong-ans');
+      }
+
+      resBox.className = `result-box show ${isCorrect ? 'ok' : 'fail'}`;
+      resBox.innerHTML = isCorrect
+        ? `✔ Chính xác! Đáp án đúng là <strong>${letters[q.displayAns]}</strong>.`
+        : `✘ Sai / Chưa chọn! Đáp án đúng là: <strong>${letters[q.displayAns]}. ${q.displayOpts[q.displayAns]}</strong>`;
+    } else {
+      maxPoints += q.items.length;
+      let subCorrect = 0;
+      const keySummary = [];
+
+      q.items.forEach((item, sIdx) => {
+        const row = document.getElementById(`tf-row-${idx}-${sIdx}`);
+        const uVal = q.userAns[sIdx];
+        const cVal = item.ans;
+        const ok = uVal === cVal;
+        if (ok) {
+          subCorrect++;
+          totalPoints += 1;
+          row.classList.add('tf-row-correct');
+        } else {
+          row.classList.add('tf-row-wrong');
+        }
+        keySummary.push(`Ý ${sIdx + 1}: <strong>${cVal ? 'Đúng' : 'Sai'}</strong>`);
+      });
+
+      const allSubOk = subCorrect === q.items.length;
+      if (allSubOk) {
+        fullCorrectCount++;
+        pBtn.classList.add('p-correct');
+      } else {
+        pBtn.classList.add('p-wrong');
+      }
+
+      resBox.className = `result-box show ${allSubOk ? 'ok' : 'fail'}`;
+      resBox.innerHTML = `Kết quả: Đúng <strong>${subCorrect}/${q.items.length}</strong> ý. &nbsp;|&nbsp; Đáp án chuẩn: ${keySummary.join(' — ')}`;
+    }
+  });
+
+  const finalScore10 = maxPoints > 0 ? ((totalPoints / maxPoints) * 10).toFixed(2) : '0.00';
+  document.getElementById('scoreVal').textContent = `${finalScore10} / 10`;
+  document.getElementById('scoreDetail').innerHTML = `Hoàn thành đúng trọn vẹn: <strong>${fullCorrectCount}/${activeQuestions.length}</strong> câu<br>(Đạt ${totalPoints}/${maxPoints} ý điểm)`;
+  document.getElementById('scoreBanner').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.onload = initQuiz;
+</script>
+</body>
+</html>
